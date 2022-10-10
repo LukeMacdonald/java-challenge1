@@ -56,6 +56,18 @@ public class PersonController {
             return ResponseEntity.badRequest().body("No Users exist to update!");
         }
     }
+    @DeleteMapping("/persons/person")
+    public ResponseEntity<?> deletePerson(@RequestBody Person person){
+        String deleted = personService.deletePerson(person);
+        if(deleted != null){
+            return ResponseEntity.ok().body(deleted);
+        }
+        else{
+            return ResponseEntity.badRequest().body("No Users exist to delete!");
+        }
+
+
+    }
 
 
 }

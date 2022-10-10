@@ -34,6 +34,15 @@ public class PersonService {
             return null;
         }
     }
+    public String deletePerson(Person person){
+        if(personRepository.findPersonById(person.getId()) != null){
+            personRepository.delete(person);
+            return "Deleted";
+        }
+        else{
+            return null;
+        }
+    }
 
 
 }
