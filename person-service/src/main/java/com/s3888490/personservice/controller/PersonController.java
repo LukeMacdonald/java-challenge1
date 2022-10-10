@@ -26,6 +26,26 @@ public class PersonController {
             return ResponseEntity.badRequest().body("ID already exists");
         }
     }
+    @GetMapping("/person/{id}")
+    public ResponseEntity<?> getPerson(@PathVariable("id") Long id){
+        Person person = personService.getPersonByID(id);
+        if(person!=null){
+            return ResponseEntity.ok().body(person);
+        }
+        else{
+            return ResponseEntity.badRequest().body("No individual Identified by that id");
+        }
+    }
+    @GetMapping("/")
+    public ResponseEntity<?> getPeople(){
+        List<Person> people = personService.getAllPeople();
+        if(people.isEmpty()){
+            return ResponseEntity.badRequest().body("No Users exist!");
+        }
+        else{
+            return ResponseEntity.ok().body(people);
+        }
+    }
 
 
 }

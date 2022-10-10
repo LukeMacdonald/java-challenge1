@@ -20,6 +20,12 @@ public class PersonService {
         }
         return null;
     }
+    public Person getPersonByID(Long id){
+        return personRepository.findPersonById(id);
+    }
+    public List<Person> getAllPeople(){
+        return personRepository.findAll();
+    }
 
 
 }
