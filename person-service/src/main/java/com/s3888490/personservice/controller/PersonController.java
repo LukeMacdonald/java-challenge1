@@ -46,6 +46,16 @@ public class PersonController {
             return ResponseEntity.ok().body(people);
         }
     }
+    @PutMapping("/")
+    public ResponseEntity<?> updatePerson(@RequestBody Person person){
+        Person updatedPerson = personService.updatePerson(person);
+        if(updatedPerson != null){
+            return ResponseEntity.ok().body(updatedPerson );
+        }
+        else{
+            return ResponseEntity.badRequest().body("No Users exist to update!");
+        }
+    }
 
 
 }

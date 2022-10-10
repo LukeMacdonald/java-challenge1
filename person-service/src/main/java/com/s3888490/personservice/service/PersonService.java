@@ -26,6 +26,14 @@ public class PersonService {
     public List<Person> getAllPeople(){
         return personRepository.findAll();
     }
+    public Person updatePerson(Person person){
+        if(personRepository.findPersonById(person.getId()) != null){
+            return personRepository.save(person);
+        }
+        else{
+            return null;
+        }
+    }
 
 
 }
