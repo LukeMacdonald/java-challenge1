@@ -1,9 +1,9 @@
 package com.s3888490.personservice.controller;
 
+import com.s3888490.personservice.exception.ApiRequestException;
 import com.s3888490.personservice.model.Person;
 import com.s3888490.personservice.service.PersonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class PersonController {
             return ResponseEntity.ok().body(newPerson);
         }
         else{
-            return ResponseEntity.badRequest().body("ID already exists");
+            throw new ApiRequestException("ID already exists");
         }
     }
     @GetMapping("/person/{id}")
@@ -33,14 +33,14 @@ public class PersonController {
             return ResponseEntity.ok().body(person);
         }
         else{
-            return ResponseEntity.badRequest().body("No individual Identified by that id");
+            throw new ApiRequestException("No individual Identified by that id");
         }
     }
     @GetMapping("/")
     public ResponseEntity<?> getPeople(){
         List<Person> people = personService.getAllPeople();
         if(people.isEmpty()){
-            return ResponseEntity.badRequest().body("No Users exist!");
+            throw new ApiRequestException("No Users exist!");
         }
         else{
             return ResponseEntity.ok().body(people);
@@ -53,7 +53,7 @@ public class PersonController {
             return ResponseEntity.ok().body(updatedPerson );
         }
         else{
-            return ResponseEntity.badRequest().body("No Users exist to update!");
+            throw new ApiRequestException("No Person exist to update!");
         }
     }
     @DeleteMapping("/")
@@ -63,9 +63,8 @@ public class PersonController {
             return ResponseEntity.ok().body(deleted);
         }
         else{
-            return ResponseEntity.badRequest().body("No Users exist to delete!");
+            throw new ApiRequestException("No Person exist to delete!");
         }
-
 
     }
 
