@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @WebMvcTest(value = PersonController.class)
 public class GetTest {
     @Autowired
@@ -58,17 +61,60 @@ public class GetTest {
     @Test
     public void returnsNull() throws Exception {
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(mockPerson);
-
         Mockito.when(personService.getPersonByID(Mockito.anyLong())).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/persons/person/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string("No individual Identified by that id"));
+
+    }
+    @Test
+    public void returnsUsers() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.getPersonByID(Mockito.anyLong())).thenReturn(mockPerson);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/persons/person/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(json));
+    }
+    @Test
+    public void returnsAllPeople() throws Exception {
+
+        List<Person> mockPeople = new ArrayList<>();
+
+        mockPeople.add(mockPerson);
+        mockPeople.add(mockPerson);
+        mockPeople.add(mockPerson);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPeople);
+
+        Mockito.when(personService.getAllPeople()).thenReturn(mockPeople);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(json));
+
+    }
+    @Test
+    public void returnsEmpty() throws Exception {
+
+        Mockito.when(personService.getPersonByID(Mockito.anyLong())).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().string("No Users exist!"));
 
     }
 }
