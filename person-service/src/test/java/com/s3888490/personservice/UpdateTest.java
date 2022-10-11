@@ -68,8 +68,7 @@ public class UpdateTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/persons/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("No Users exist to update!"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 }

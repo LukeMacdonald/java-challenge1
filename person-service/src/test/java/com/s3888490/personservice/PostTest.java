@@ -80,8 +80,7 @@ public class PostTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/persons/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("ID already exists"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 

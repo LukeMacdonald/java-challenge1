@@ -74,8 +74,7 @@ public class DeleteTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/persons/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("No Users exist to delete!"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 
