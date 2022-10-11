@@ -1,7 +1,10 @@
 package com.s3888490.accountservice.model;
 
+import com.s3888490.accountservice.exception.ApiRequestException;
+
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Account {
@@ -58,7 +61,7 @@ public class Account {
                 this.accountType = AccountType.Saving;
                 break;
             default:
-                this.accountType= null;
+                throw new ApiRequestException("Invalid account type!");
         }
     }
 
@@ -89,7 +92,15 @@ public class Account {
     public String getDate() {
         return date;
     }
-    public void setDate(String date) {
-        this.date=date;
+    public void setDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        LocalDate dateTime = LocalDate.parse(date);
+        if(dateTime.equals(LocalDate.now())){
+            this.date=date;
+        }
+        else{
+            throw new ApiRequestException("Invalid date (Must be today!)");
+        }
+
     }
 }
