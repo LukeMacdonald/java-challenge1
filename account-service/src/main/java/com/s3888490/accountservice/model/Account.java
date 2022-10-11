@@ -23,7 +23,7 @@ public class Account {
     private String balance;
 
     @Column(name = "date")
-    private Date date = new Date(System.currentTimeMillis());;
+    private String date;
 
     public Long getId() {
         return id;
@@ -33,7 +33,15 @@ public class Account {
         this.id = id;
     }
     public String getAccountType() {
-        return accountType.getAccountTypeName();
+        if (this.accountType == AccountType.Loan) {
+            return "Loan";
+        }
+        else if(this.accountType == AccountType.Saving){
+            return "Saving";
+        }
+        else {
+            return "Term Investment";
+        }
     }
 
     public void setAccountType(String accountType) {
@@ -78,10 +86,10 @@ public class Account {
         this.balance = balance;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date=date;
     }
 }

@@ -11,10 +11,5 @@ public enum AccountType {
         this.value = value;
     }
 
-    public int getAccountTypeValue() {
-        return this.value;
-    }
-    public String getAccountTypeName() {
-        return this.name();
-    }
+
 }
