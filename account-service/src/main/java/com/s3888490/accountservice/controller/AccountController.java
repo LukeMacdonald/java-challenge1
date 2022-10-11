@@ -4,10 +4,9 @@ import com.s3888490.accountservice.model.Account;
 import com.s3888490.accountservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
@@ -25,6 +24,26 @@ public class AccountController {
         }
         else{
             return ResponseEntity.badRequest().body("Account with same number already exists");
+        }
+    }
+    @GetMapping("/account/{id}")
+    public ResponseEntity<?> getPerson(@PathVariable("id") Long id){
+        List<Account> accounts = accountService.getAccountByID(id);
+        if(accounts.isEmpty()){
+            return ResponseEntity.badRequest().body("No accounts exists for user with this id!");
+        }
+        else{
+            return ResponseEntity.ok().body(accounts);
+        }
+    }
+    @GetMapping("/")
+    public ResponseEntity<?> getPeople(){
+        List<Account> accounts = accountService.getAllAccounts();
+        if(accounts.isEmpty()){
+            return ResponseEntity.badRequest().body("No accounts exist");
+        }
+        else{
+            return ResponseEntity.ok().body(accounts);
         }
     }
 

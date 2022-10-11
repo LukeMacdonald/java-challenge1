@@ -5,6 +5,8 @@ import com.s3888490.accountservice.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -16,5 +18,11 @@ public class AccountService {
             return  accountRepository.save(account);
         }
         return null;
+    }
+    public List<Account> getAccountByID(Long id){
+        return accountRepository.findAccountById(id);
+    }
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
     }
 }
