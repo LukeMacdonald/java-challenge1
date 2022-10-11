@@ -18,8 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.sql.Date;
-
 @WebMvcTest(value = AccountController.class)
 public class PostTest {
 
@@ -39,14 +37,11 @@ public class PostTest {
         mockAccount.setAccountType("Term Investment");
         mockAccount.setAccountName("J Smith");
         mockAccount.setAccountNumber("23456788");
-        long millis=System.currentTimeMillis();
-        Date date= new Date(millis);
-        System.out.println(date);
         mockAccount.setDate("2022-10-11");
         mockAccount.setBalance("350");
     }
     @Test
-    public void postSuccesful() throws Exception {
+    public void postSuccessful() throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
