@@ -72,8 +72,7 @@ public class GetTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/accounts/account/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("No accounts exists for user with this id!"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 
@@ -107,8 +106,7 @@ public class GetTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/accounts/")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("No accounts exist"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 }

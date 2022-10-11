@@ -72,8 +72,7 @@ public class UpdateTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/accounts/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("No Account exists to update!"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 }

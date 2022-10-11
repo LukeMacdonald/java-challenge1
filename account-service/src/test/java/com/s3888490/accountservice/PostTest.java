@@ -70,8 +70,7 @@ public class PostTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/accounts/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content().string("Account with same number already exists"));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 
