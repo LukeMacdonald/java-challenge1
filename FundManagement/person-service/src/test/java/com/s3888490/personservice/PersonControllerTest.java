@@ -1,19 +1,15 @@
 package com.s3888490.personservice;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.s3888490.personservice.controller.PersonController;
+import com.s3888490.personservice.dao.PersonRepository;
 import com.s3888490.personservice.model.Person;
 import com.s3888490.personservice.service.PersonService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,13 +22,16 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DataJpaTest
-public class GetTest {
+public class PersonControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private PersonService personService;
+
+    @MockBean
+    private PersonRepository personRepository;
 
     private Person mockPerson;
 
@@ -47,6 +46,39 @@ public class GetTest {
         mockPerson.setPhoneNumber("1300655503");
         mockPerson.setEmail("johndoe@gmail.com");
         mockPerson.setPostcode("3000");
+    }
+    @Test
+    public void deleteSuccessful() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.deletePerson(Mockito.any(Person.class))).thenReturn("Deleted");
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Deleted"));
+
+    }
+    @Test
+    public void deleteFailure() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.deletePerson(Mockito.any(Person.class))).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
     }
     @Test
     public void returnsUser() throws Exception {
@@ -120,4 +152,72 @@ public class GetTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
+    @Test
+    public void postSuccessful() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.savePerson(Mockito.any(Person.class))).thenReturn(mockPerson);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(json));
+
+    }
+    @Test
+    public void postFailure() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.savePerson(Mockito.any(Person.class))).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
+    @Test
+    public void updateSuccessful() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.updatePerson(Mockito.any(Person.class))).thenReturn(mockPerson);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(json));
+
+    }
+    @Test
+    public void updateFailure() throws Exception {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(mockPerson);
+
+        Mockito.when(personService.savePerson(Mockito.any(Person.class))).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/persons/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
+
+
 }
