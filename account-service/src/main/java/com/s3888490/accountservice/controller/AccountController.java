@@ -46,5 +46,26 @@ public class AccountController {
             return ResponseEntity.ok().body(accounts);
         }
     }
+    @PutMapping("/")
+    public ResponseEntity<?> updateAccount(@RequestBody Account account){
+        Account updatedAccount = accountService.updateAccount(account);
+        if(updatedAccount  != null){
+            return ResponseEntity.ok().body(updatedAccount);
+        }
+        else{
+            return ResponseEntity.badRequest().body("No Account exists to update!");
+        }
+    }
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteAccount(@RequestBody Account account){
+        String deleted =  accountService.deleteAccount(account);
+        if(deleted != null){
+            return ResponseEntity.ok().body(deleted);
+        }
+        else{
+            return ResponseEntity.badRequest().body("No Account exists to delete!");
+        }
+
+    }
 
 }

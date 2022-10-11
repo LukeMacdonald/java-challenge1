@@ -25,4 +25,21 @@ public class AccountService {
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
     }
+    public Account updateAccount(Account person){
+        if(accountRepository.findAccountByAccountNumber(person.getAccountNumber()) != null){
+            return accountRepository.save(person);
+        }
+        else{
+            return null;
+        }
+    }
+    public String deleteAccount(Account account){
+        if(accountRepository.findAccountByAccountNumber(account.getAccountNumber()) != null){
+            accountRepository.delete(account);
+            return "Deleted";
+        }
+        else{
+            return null;
+        }
+    }
 }
