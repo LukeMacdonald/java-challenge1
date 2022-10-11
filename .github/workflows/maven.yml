@@ -17,7 +17,7 @@ jobs:
         cache: maven
         
     - name: build and test person-service
-      run: mvn -f person-service/ -B package --f pom.xml -D maven.test.skip=true
+      run: mvn -f FundMangement/person-service/ -B package --f pom.xml -D maven.test.skip=true
       
     - name: build and test account-service
-      run: mvn -f account-service/ -B package --f pom.xml -D maven.test.skip=true
+      run: mvn -f FundMangement/account-service/ -B package --f pom.xml -D maven.test.skip=true
