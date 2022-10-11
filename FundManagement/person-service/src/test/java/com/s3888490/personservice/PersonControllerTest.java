@@ -22,7 +22,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PersonControllerTest {
+class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

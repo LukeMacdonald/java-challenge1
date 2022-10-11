@@ -42,7 +42,7 @@ public class AccountControllerTest {
         mockAccount.setId(5L);
         mockAccount.setAccountType("Term Investment");
         mockAccount.setAccountName("J Smith");
-        mockAccount.setAccountNumber("23456788");
+        mockAccount.setAccountNumber(23456788L);
         mockAccount.setDate("2022-10-11");
         mockAccount.setBalance("350");
     }

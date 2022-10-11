@@ -7,17 +7,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Entity
+@Table(schema = "account")
 public class Account {
 
     @Id
-    @Column(name = "account_number")
-    private String accountNumber;
-    @Column(name = "id", nullable = false)
+    @Column(name = "account_number", nullable = false)
+    private Long accountNumber;
+    //@Id
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "account_type", columnDefinition = "ENUM('TermInvestment', 'Loan', 'Saving')")
-    @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    @Column(name = "account_type")
+    private String accountType;
 
     @Column(name = "account_name")
     private String accountName;
@@ -36,40 +37,33 @@ public class Account {
         this.id = id;
     }
     public String getAccountType() {
-        if (this.accountType == AccountType.Loan) {
-            return "Loan";
-        }
-        else if(this.accountType == AccountType.Saving){
-            return "Saving";
-        }
-        else {
-            return "Term Investment";
-        }
+        return this.accountType;
     }
 
     public void setAccountType(String accountType) {
+        this.accountType = accountType;
         String upper = accountType.toUpperCase().trim();
         switch (upper){
             case("TERMINVESTMENT"):
             case("TERM INVESTMENT"):
-                this.accountType = AccountType.TermInvestment;
+                this.accountType = "Term Investment";
                 break;
             case("LOAN"):
-                this.accountType = AccountType.Loan;
+                this.accountType = "Loan";
                 break;
             case("SAVING"):
-                this.accountType = AccountType.Saving;
+                this.accountType = "Saving";
                 break;
             default:
                 throw new ApiRequestException("Invalid account type!");
         }
     }
 
-    public String getAccountNumber() {
+    public Long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
+    public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
 
