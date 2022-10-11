@@ -1,5 +1,6 @@
 package com.s3888490.accountservice.controller;
 
+import com.s3888490.accountservice.exception.ApiRequestException;
 import com.s3888490.accountservice.model.Account;
 import com.s3888490.accountservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +24,14 @@ public class AccountController {
             return ResponseEntity.ok().body(newAccount);
         }
         else{
-            return ResponseEntity.badRequest().body("Account with same number already exists");
+            throw new ApiRequestException("Account with same number already exists");
         }
     }
     @GetMapping("/account/{id}")
     public ResponseEntity<?> getPerson(@PathVariable("id") Long id){
         List<Account> accounts = accountService.getAccountByID(id);
         if(accounts.isEmpty()){
-            return ResponseEntity.badRequest().body("No accounts exists for user with this id!");
+            throw new ApiRequestException("No accounts exists for user with this id!");
         }
         else{
             return ResponseEntity.ok().body(accounts);
@@ -40,7 +41,7 @@ public class AccountController {
     public ResponseEntity<?> getPeople(){
         List<Account> accounts = accountService.getAllAccounts();
         if(accounts.isEmpty()){
-            return ResponseEntity.badRequest().body("No accounts exist");
+            throw new ApiRequestException("No accounts exist");
         }
         else{
             return ResponseEntity.ok().body(accounts);
@@ -53,7 +54,7 @@ public class AccountController {
             return ResponseEntity.ok().body(updatedAccount);
         }
         else{
-            return ResponseEntity.badRequest().body("No Account exists to update!");
+            throw new ApiRequestException("No Account exists to update!");
         }
     }
     @DeleteMapping("/")
@@ -63,7 +64,7 @@ public class AccountController {
             return ResponseEntity.ok().body(deleted);
         }
         else{
-            return ResponseEntity.badRequest().body("No Account exists to delete!");
+            throw new ApiRequestException("No Account exists to delete!");
         }
 
     }
